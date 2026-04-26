@@ -106,3 +106,68 @@ Please check [CONTRIBUTING.md](CONTRIBUTING.md)
 
 This project is licensed under the MIT License  
 See the [LICENSE](LICENSE) file for details.
+
+---
+
+## 📸 Usage Examples
+
+### ➤ Creating your vault
+
+1. Open the application in your browser  
+2. Enter a master password  
+3. Your vault will be initialized  
+
+👉 After this, you can start saving your credentials.
+
+---
+
+### ➤ Adding a new password
+
+1. Click on **"Add"**
+2. Enter:
+   - Service (e.g. Gmail, Netflix)
+   - Username or email
+   - Password
+3. Save the entry
+
+👉 The credential will appear in the main table.
+
+---
+
+### ➤ Generating a secure password
+
+1. Open the add/edit window  
+2. Click on the **generate button 🎲**  
+3. A strong password will be created automatically  
+
+👉 You can copy and use it instantly.
+
+---
+
+### ➤ Copying credentials
+
+- Select an entry from the table  
+- Click:
+  - **"Copy username"**  
+  - **"Copy password"**
+
+👉 The password is copied temporarily for security.
+
+---
+
+### ➤ Searching and filtering
+
+- Use the search bar to find services  
+- Use the category filter to organize entries  
+
+👉 This helps manage multiple accounts easily.
+
+---
+
+### ➤ Data persistence (important)
+
+- All data is stored in your browser  
+- If you refresh the page → data remains  
+- If you clear browser data → data is lost  
+
+👉 This is a limitation of the web demo version.
