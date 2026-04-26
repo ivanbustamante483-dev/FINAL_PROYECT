@@ -85,3 +85,24 @@ This version includes encrypted file storage and additional security features.
 ---
 
 ## 📦 Project Structure
+
+- assets/
+    - index.html
+    - style.css
+    - script.js
+    - README.md
+
+  
+---
+
+## 🤝 Contributing
+
+Contributions are welcome!  
+Please check [CONTRIBUTING.md](CONTRIBUTING.md)
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License  
+See the [LICENSE](LICENSE) file for details.
