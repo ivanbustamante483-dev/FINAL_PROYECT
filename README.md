@@ -1,173 +1,191 @@
-# MiniVault 🔐
+# 🔐 MiniVault Web
 
-MiniVault is a lightweight, privacy-focused password manager that runs directly in your browser.
+MiniVault is a simple and secure password manager that works entirely in your browser.
 
-This version is a **web-based demo** designed to showcase the core functionality of the application without requiring installation.
-
-![MiniVault Icon](assets/icon.png)
+It allows users to store, manage, and generate passwords using strong client-side encryption, without sending any data to external servers.
 
 ---
 
-## ✨ Key Features
+## 🚀 Project Motivation
 
-- **Local-First Storage**  
-  All data is stored locally in your browser. No servers, no cloud.
+The goal of this project is to simulate a real-world digitalization solution focused on **data security and privacy**.
 
-- **Master Password Protection**  
-  Access to the vault is protected with a master password.
+Many users reuse weak passwords or store them insecurely. This project aims to solve that problem by:
 
-- **Password Generator**  
-  Generate secure passwords instantly.
+- Providing a simple interface to manage credentials
+- Applying encryption directly in the browser
+- Avoiding dependency on external services or databases
 
-- **Modern UI**  
-  Clean interface inspired by modern applications.
+It also demonstrates how modern web technologies can be used to build secure applications.
 
 ---
 
-## 🌐 Online Demo
+## 🌐 Live Demo
 
-You can try the application directly in your browser:
+You can try the application online here:
 
-👉 https://ivanbustamante483-dev.github.io/FINAL_PROYECT/
+👉 https://ivanbustamante483-dev.github.io/FINAL_PROJECT/
 
-No installation required.
-
----
-
-## 💻 Desktop Version (Full App)
-
-A more complete and secure desktop version of MiniVault is available in a separate repository:
-
-👉 https://github.com/ivanbustamante483-dev/Proyecto_Digitalizacion
-
-This version includes encrypted file storage and additional security features.
+No installation is required.
 
 ---
 
-## 🚀 How to Use
+## ⚙️ How It Works
 
-1. Open the demo link
-2. Enter a master password
-3. Start adding your credentials
-4. Your data will be stored locally in your browser
+MiniVault works completely on the client side:
 
----
+1. The user creates a **master password**
+2. A secure encryption key is generated using **PBKDF2**
+3. All credentials are encrypted using **AES-GCM**
+4. The encrypted data is stored in the browser using `localStorage`
 
-## 🔐 Security Model
+### Important
 
-### Web Version (this project)
-
-- Data is stored using the browser's `localStorage`
-- No files are created on the system
-- No data is sent over the internet
-
-⚠️ **Important limitations:**
-
-- Data is tied to your browser and device
-- If you:
-  - clear browser data
-  - delete cookies or site storage
-  - switch browser or device
-
-👉 **all stored passwords will be permanently lost**
-
-- The encryption in this version is simplified compared to the desktop version
-- This version is intended for demonstration purposes only
+- Data **never leaves your browser**
+- There is **no backend or server**
+- If you **clear browser data (cookies/localStorage)**, all saved passwords are lost
 
 ---
 
-### Desktop Version (recommended for real use)
+## 🔐 Security Overview
 
-- Stores data in a local encrypted file (`vault.json`)
-- Uses strong cryptography (PBKDF2 + Fernet encryption)
-- Data persists independently of the browser
+- Key derivation: PBKDF2 (100,000 iterations)
+- Encryption: AES-GCM (256-bit)
+- Random salt generation
+- Password generator using cryptographic randomness
+
+### Limitations
+
+This is a **demo project**, so:
+
+- Data is stored locally (not suitable for production)
+- No account recovery system exists
+- Data loss occurs if browser storage is cleared
 
 ---
 
-## 📦 Project Structure
+## 📦 Deployment
 
-- assets/
-    - index.html
-    - style.css
-    - script.js
-    - README.md
+### Option 1: Use the online version
 
-  
+Just open the demo link above.
+
+### Option 2: Run locally
+
+1. Download or clone the repository
+2. Open `index.html` in your browser
+
+No installation or dependencies required.
+
+---
+
+## 📖 Documentation
+
+The project includes automatically generated documentation using JSDoc.
+
+You can access it here:
+
+👉 https://ivanbustamante483-dev.github.io/FINAL_PROJECT/docs/
+
+This documentation explains:
+
+- The structure of the code
+- Functions and classes
+- Encryption logic
+
+---
+
+## 🧠 Project Structure
+- FINAL_PROJECT/
+- │
+- ├── index.html # Main app
+- ├── script.js # Core logic
+- ├── style.css # UI styles
+- ├── assets/ # Icons and images
+- ├── docs/ # Auto-generated documentation (JSDoc)
+- │
+- ├── README.md
+- ├── CONTRIBUTING.md
+- ├── questions.md
+- ├── LICENSE
+- ├── RELEASE_NOTES.md
+- ├── documentation_strategy.md 
+- └── wiki_proposal.md
+
+
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome!  
-Please check [CONTRIBUTING.md](CONTRIBUTING.md)
+If you want to contribute to this project, please read:
+
+👉 `CONTRIBUTING.md`
+
+It includes:
+
+- Code structure guidelines
+- Possible improvements
+- Contribution workflow
 
 ---
 
-## 📄 License
+## 📚 Wiki and Devlog
 
-This project is licensed under the MIT License  
-See the [LICENSE](LICENSE) file for details.
+This project includes a **Wiki proposal** and a **development log (devlog)**.
 
----
+### Wiki
 
-## 📸 Usage Examples
+The wiki contains:
 
-### ➤ Creating your vault
+- Technical documentation for developers
+- Explanation of architecture and decisions
+- Future improvements
 
-1. Open the application in your browser  
-2. Enter a master password  
-3. Your vault will be initialized  
+👉 See: `wiki_proposal.md`
 
-👉 After this, you can start saving your credentials.
+### Devlog
 
----
+The development process has been documented and published on LinkedIn:
 
-### ➤ Adding a new password
+👉 https://www.linkedin.com/posts/ivan-bustamante-0aa609406_webdevelopment-javascript-cybersecurity-share-7454279559975231488-vrSf
 
-1. Click on **"Add"**
-2. Enter:
-   - Service (e.g. Gmail, Netflix)
-   - Username or email
-   - Password
-3. Save the entry
+It explains:
 
-👉 The credential will appear in the main table.
+- How the project evolved
+- Problems encountered
+- Decisions made during development
 
 ---
 
-### ➤ Generating a secure password
+## 📊 Use Cases
 
-1. Open the add/edit window  
-2. Click on the **generate button 🎲**  
-3. A strong password will be created automatically  
+This software can be useful in:
 
-👉 You can copy and use it instantly.
-
----
-
-### ➤ Copying credentials
-
-- Select an entry from the table  
-- Click:
-  - **"Copy username"**  
-  - **"Copy password"**
-
-👉 The password is copied temporarily for security.
+- Personal password management
+- Educational environments (learning encryption concepts)
+- Demonstrating secure frontend applications
 
 ---
 
-### ➤ Searching and filtering
+## 🧩 Future Improvements
 
-- Use the search bar to find services  
-- Use the category filter to organize entries  
-
-👉 This helps manage multiple accounts easily.
+- Cloud synchronization
+- Multi-device support
+- Backup system
+- Biometric authentication
+- Progressive Web App (PWA)
 
 ---
 
-### ➤ Data persistence (important)
+## 📜 License
 
-- All data is stored in your browser  
-- If you refresh the page → data remains  
-- If you clear browser data → data is lost  
+This project is licensed under the MIT License.
 
-👉 This is a limitation of the web demo version.
+---
+
+## ⚠️ Final Notes
+
+This project is intended for **educational purposes**.
+
+It demonstrates how encryption and secure storage can be implemented in a web environment, but it is not intended for production use.
+
