@@ -1,10 +1,8 @@
 # MiniVault 🔐
 
-MiniVault is a lightweight, secure, and privacy-focused password manager.
+MiniVault is a lightweight, privacy-focused password manager that runs directly in your browser.
 
-This project includes:
-- A **desktop version** built with Python (PySide6)
-- A **web demo version** built with HTML, CSS and JavaScript
+This version is a **web-based demo** designed to showcase the core functionality of the application without requiring installation.
 
 ![MiniVault Icon](assets/icon.png)
 
@@ -12,74 +10,78 @@ This project includes:
 
 ## ✨ Key Features
 
-- **Local-First Security**  
-  Your data is stored locally. No cloud, no servers.
+- **Local-First Storage**  
+  All data is stored locally in your browser. No servers, no cloud.
 
 - **Master Password Protection**  
-  Access is protected with a master password.
+  Access to the vault is protected with a master password.
 
 - **Password Generator**  
-  Generate secure passwords easily.
+  Generate secure passwords instantly.
 
 - **Modern UI**  
-  Clean interface inspired by modern apps.
+  Clean interface inspired by modern applications.
 
 ---
 
 ## 🌐 Online Demo
 
-You can try the web version here:
+You can try the application directly in your browser:
 
 👉 https://ivanbustamante483-dev.github.io/FINAL_PROYECT/
 
-⚠️ Note:
-The web demo is a simplified version of the application.  
-It runs entirely in the browser and stores data using `localStorage`.
+No installation required.
 
 ---
 
-## 💻 Desktop Version
+## 💻 Desktop Version (Full App)
 
-The full version of MiniVault is available as a Windows executable.
+A more complete and secure desktop version of MiniVault is available in a separate repository:
 
-👉 Download it from the **Releases section**:
-https://github.com/ivanbustamante483-dev/FINAL_PROYECT/releases
+👉 https://github.com/ivanbustamante483-dev/Proyecto_Digitalizacion
+
+This version includes encrypted file storage and additional security features.
 
 ---
 
 ## 🚀 How to Use
 
-### Web Version
 1. Open the demo link
 2. Enter a master password
-3. Start adding credentials
-
-### Desktop Version
-1. Download the `.zip` from Releases
-2. Extract it into a folder
-3. Run `MiniVault.exe`
-4. Create your vault
+3. Start adding your credentials
+4. Your data will be stored locally in your browser
 
 ---
 
 ## 🔐 Security Model
 
-### Desktop Version
-- Data is stored in a local file (`vault.json`)
-- Encrypted using strong cryptography (Fernet, PBKDF2)
+### Web Version (this project)
 
-### Web Version
-- Data is stored in the browser (`localStorage`)
-- No files are created
-- Designed for demonstration purposes only
+- Data is stored using the browser's `localStorage`
+- No files are created on the system
+- No data is sent over the internet
+
+⚠️ **Important limitations:**
+
+- Data is tied to your browser and device
+- If you:
+  - clear browser data
+  - delete cookies or site storage
+  - switch browser or device
+
+👉 **all stored passwords will be permanently lost**
+
+- The encryption in this version is simplified compared to the desktop version
+- This version is intended for demonstration purposes only
+
+---
+
+### Desktop Version (recommended for real use)
+
+- Stores data in a local encrypted file (`vault.json`)
+- Uses strong cryptography (PBKDF2 + Fernet encryption)
+- Data persists independently of the browser
 
 ---
 
 ## 📦 Project Structure
-
-```bash
-assets/
-index.html
-style.css
-script.js
-README.md
