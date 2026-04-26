@@ -1,29 +1,67 @@
 # Contributing to MiniVault
 
-First off, thank you for considering contributing to MiniVault! It's people like you that make the open-source community such an amazing place.
+Thanks for your interest in contributing to MiniVault! 🚀
 
-## How Can I Contribute?
+This project is a simple web-based password manager, so contributions are focused on improving usability, security and design.
 
-### Reporting Bugs
-- Use the GitHub Issue Tracker.
-- Describe the bug and include steps to reproduce.
-- Provide information about your OS and Python version.
+---
 
-### Suggesting Enhancements
-- Open an issue with the tag `enhancement`.
-- Explain why the feature would be useful.
+## 🛠 How can you contribute?
 
-### Pull Requests
-1. Fork the repo and create your branch from `main`.
-2. If you've added code that should be tested, add tests.
-3. If you've changed APIs, update the documentation.
-4. Ensure the test suite passes.
-5. Make sure your code follows the PEP 8 style guide.
+### 🐛 Reporting bugs
+- Open an issue on GitHub
+- Explain clearly what is happening
+- Include steps to reproduce the problem
+- Mention your browser (Chrome, Edge, etc.)
 
-## Style Guide
-- **JavaScript**: Follow clean code principles and ES6+ standards.
-- **CSS**: Use modern CSS features while maintaining compatibility with major browsers.
-- **UI**: Keep it clean and consistent with the existing dark theme and glassmorphism style.
+---
 
-## Questions?
-Feel free to open an issue or contact the maintainers.
+### 💡 Suggesting improvements
+- Open an issue with your idea
+- Explain what problem it solves
+- Keep it simple and practical
+
+Examples:
+- Improve UI/UX
+- Add export/import of passwords
+- Improve security logic
+- Add new features
+
+---
+
+### 🔧 Pull Requests
+
+1. Fork the repository
+2. Create a new branch (`feature/your-feature`)
+3. Make your changes
+4. Test them in the browser
+5. Submit a Pull Request
+
+---
+
+## 🎨 Code Style
+
+- **JavaScript**: Keep it simple and readable (no unnecessary complexity)
+- **CSS**: Maintain the current modern and clean design
+- **UI**: Follow the existing style (minimal and user-friendly)
+
+---
+
+## 🚀 Future Improvements (Ideas)
+
+Here are some ideas contributors can work on:
+
+- Add real encryption in the web version
+- Implement cloud sync (optional)
+- Add login system
+- Improve mobile responsiveness
+- Add backup/export functionality
+- Improve performance with large data
+
+---
+
+## ❓ Questions
+
+If you have any questions, feel free to open an issue.
+
+Thanks for contributing! 💙
