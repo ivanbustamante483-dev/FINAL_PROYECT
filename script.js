@@ -1,9 +1,19 @@
 /**
- * MiniVault Web Application Core Logic
- * Secure client-side encryption using Web Crypto API.
+ * MiniVault Web Application Core Logic.
+ *
+ * This file contains the main logic for the MiniVault web demo.
+ * It manages vault unlocking, credential storage, encryption/decryption,
+ * password generation, UI rendering and browser localStorage persistence.
+ *
+ * @class MiniVault
  */
-
 class MiniVault {
+    /**
+     * Creates the MiniVault application instance.
+     *
+     * Initializes application state, loads DOM elements, binds events
+     * and checks whether a vault already exists in browser storage.
+     */
     constructor() {
         this.masterKey = null;
         this.vaultData = [];
@@ -16,6 +26,13 @@ class MiniVault {
         this.checkExistingVault();
     }
 
+    /**
+     * Initializes and stores references to the required DOM elements.
+     *
+     * This avoids repeatedly calling document.getElementById across the app.
+     *
+     * @returns {void}
+     */
     initElements() {
         // Overlays
         this.loginOverlay = document.getElementById('login-overlay');
@@ -49,11 +66,19 @@ class MiniVault {
         this.toast = document.getElementById('toast');
     }
 
+    /**
+     * Binds UI events to application methods.
+     *
+     * Handles login, modal opening/closing, password generation,
+     * saving entries, locking the vault, searching and password visibility.
+     *
+     * @returns {void}
+     */
     bindEvents() {
         this.unlockBtn.addEventListener('click', () => this.handleUnlock());
         this.masterPassInput.addEventListener('keypress', (e) => e.key === 'Enter' && this.handleUnlock());
         this.confirmPassInput.addEventListener('keypress', (e) => e.key === 'Enter' && this.handleUnlock());
-        
+
         this.addEntryBtn.addEventListener('click', () => this.toggleModal(this.entryModal, true));
         this.cancelBtn.addEventListener('click', () => this.toggleModal(this.entryModal, false));
         this.saveBtn.addEventListener('click', () => this.handleSaveEntry());
@@ -66,7 +91,7 @@ class MiniVault {
         this.copyBtn.addEventListener('click', () => this.copyToClipboard(this.genResult.textContent));
 
         this.lockBtn.addEventListener('click', () => this.lock());
-        
+
         this.searchInput.addEventListener('input', () => this.renderVault());
         this.lengthSlider.addEventListener('input', (e) => {
             this.lengthVal.textContent = e.target.value;
@@ -84,6 +109,14 @@ class MiniVault {
         }
     }
 
+    /**
+     * Checks whether a vault already exists in localStorage.
+     *
+     * If a salt is found, the application enters unlock mode.
+     * Otherwise, it enters setup mode and asks the user to create a master password.
+     *
+     * @returns {Promise<void>}
+     */
     async checkExistingVault() {
         const storedSalt = localStorage.getItem('mv_salt');
         if (storedSalt) {
@@ -100,14 +133,24 @@ class MiniVault {
             this.confirmPassInput.classList.remove('hidden');
             this.unlockBtn.textContent = 'Create Vault';
         }
-        // Force focus after a small delay to ensure visibility
+
         setTimeout(() => this.masterPassInput.focus(), 100);
     }
 
+    /**
+     * Handles vault setup or unlock process.
+     *
+     * In setup mode, it validates the master password, creates a salt,
+     * derives the encryption key and saves an empty vault.
+     *
+     * In unlock mode, it derives the key and tries to decrypt stored data.
+     *
+     * @returns {Promise<void>}
+     */
     async handleUnlock() {
         const password = this.masterPassInput.value;
         const confirmPass = this.confirmPassInput.value;
-        
+
         if (!password) {
             this.showLoginError('Please enter a password.');
             return;
@@ -133,7 +176,7 @@ class MiniVault {
                 this.salt = window.crypto.getRandomValues(new Uint8Array(16));
                 localStorage.setItem('mv_salt', this.uint8ToStr(this.salt));
                 this.masterKey = await this.deriveKey(password, this.salt);
-                await this.saveVault(); // Save empty vault
+                await this.saveVault();
             } else {
                 this.masterKey = await this.deriveKey(password, this.salt);
                 const encryptedData = localStorage.getItem('mv_data');
@@ -158,11 +201,22 @@ class MiniVault {
         }
     }
 
+    /**
+     * Displays an error message in the login screen.
+     *
+     * @param {string} msg - Error message to display.
+     * @returns {void}
+     */
     showLoginError(msg) {
         this.loginError.textContent = msg;
         this.loginError.style.opacity = 1;
     }
 
+    /**
+     * Unlocks the UI after successful authentication.
+     *
+     * @returns {void}
+     */
     unlock() {
         this.isLocked = false;
         this.loginOverlay.classList.remove('active');
@@ -170,9 +224,14 @@ class MiniVault {
         this.dashboard.classList.remove('hidden');
         this.renderVault();
         this.showToast(this.isSetupMode ? 'Vault Created!' : 'Vault Unlocked');
-        this.isSetupMode = false; // Reset mode for future locks
+        this.isSetupMode = false;
     }
 
+    /**
+     * Locks the vault and clears sensitive data from memory.
+     *
+     * @returns {void}
+     */
     lock() {
         this.isLocked = true;
         this.masterKey = null;
@@ -184,9 +243,14 @@ class MiniVault {
         this.confirmPassInput.value = '';
         this.loginError.textContent = '';
         this.vaultItems.innerHTML = '';
-        this.checkExistingVault(); // Re-check setup mode
+        this.checkExistingVault();
     }
 
+    /**
+     * Creates a new credential entry and saves it into the encrypted vault.
+     *
+     * @returns {Promise<void>}
+     */
     async handleSaveEntry() {
         const service = document.getElementById('service').value;
         const username = document.getElementById('username').value;
@@ -210,12 +274,18 @@ class MiniVault {
         this.renderVault();
         this.toggleModal(this.entryModal, false);
         this.showToast('Credential Saved');
-        
+
         document.getElementById('service').value = '';
         document.getElementById('username').value = '';
         document.getElementById('password').value = '';
     }
 
+    /**
+     * Deletes a credential entry by ID.
+     *
+     * @param {number} id - Credential identifier.
+     * @returns {Promise<void>}
+     */
     async deleteEntry(id) {
         if (!confirm('Are you sure you want to delete this credential?')) return;
         this.vaultData = this.vaultData.filter(item => item.id !== id);
@@ -224,21 +294,31 @@ class MiniVault {
         this.showToast('Credential Deleted');
     }
 
+    /**
+     * Encrypts and saves the current vault data into localStorage.
+     *
+     * @returns {Promise<void>}
+     */
     async saveVault() {
         const json = JSON.stringify(this.vaultData);
         const encrypted = await this.encrypt(json, this.masterKey);
         localStorage.setItem('mv_data', encrypted);
     }
 
+    /**
+     * Renders all credentials matching the current search query.
+     *
+     * @returns {void}
+     */
     renderVault() {
         const query = this.searchInput.value.toLowerCase();
-        const filtered = this.vaultData.filter(item => 
-            item.service.toLowerCase().includes(query) || 
+        const filtered = this.vaultData.filter(item =>
+            item.service.toLowerCase().includes(query) ||
             item.username.toLowerCase().includes(query)
         );
 
         this.vaultItems.innerHTML = '';
-        
+
         if (filtered.length === 0) {
             this.emptyState.classList.remove('hidden');
         } else {
@@ -265,6 +345,12 @@ class MiniVault {
         }
     }
 
+    /**
+     * Toggles visibility of a stored password in the UI.
+     *
+     * @param {number} id - Credential identifier.
+     * @returns {void}
+     */
     showPassword(id) {
         const item = this.vaultData.find(i => i.id === id);
         const el = document.getElementById(`p-${id}`);
@@ -277,6 +363,13 @@ class MiniVault {
         }
     }
 
+    /**
+     * Derives an AES-GCM key from the user's master password.
+     *
+     * @param {string} password - User master password.
+     * @param {Uint8Array} salt - Random salt used for PBKDF2.
+     * @returns {Promise<CryptoKey>} Derived encryption key.
+     */
     async deriveKey(password, salt) {
         const encoder = new TextEncoder();
         const baseKey = await window.crypto.subtle.importKey(
@@ -301,6 +394,16 @@ class MiniVault {
         );
     }
 
+    /**
+     * Encrypts plain text using AES-GCM.
+     *
+     * The initialization vector is generated randomly and prepended to the
+     * encrypted output before being converted to Base64.
+     *
+     * @param {string} text - Plain text to encrypt.
+     * @param {CryptoKey} key - AES-GCM encryption key.
+     * @returns {Promise<string>} Base64 encoded encrypted payload.
+     */
     async encrypt(text, key) {
         const encoder = new TextEncoder();
         const iv = window.crypto.getRandomValues(new Uint8Array(12));
@@ -313,10 +416,17 @@ class MiniVault {
         const combined = new Uint8Array(iv.length + encrypted.byteLength);
         combined.set(iv);
         combined.set(new Uint8Array(encrypted), iv.length);
-        
+
         return this.uint8ToStr(combined);
     }
 
+    /**
+     * Decrypts an encrypted Base64 payload using AES-GCM.
+     *
+     * @param {string} combinedStr - Base64 encoded encrypted payload.
+     * @param {CryptoKey} key - AES-GCM decryption key.
+     * @returns {Promise<string>} Decrypted plain text.
+     */
     async decrypt(combinedStr, key) {
         const combined = this.strToUint8(combinedStr);
         const iv = combined.slice(0, 12);
@@ -331,6 +441,11 @@ class MiniVault {
         return new TextDecoder().decode(decrypted);
     }
 
+    /**
+     * Generates a random password using the Web Crypto API.
+     *
+     * @returns {void}
+     */
     generatePassword() {
         const len = parseInt(this.lengthSlider.value);
         const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+";
@@ -343,11 +458,25 @@ class MiniVault {
         this.genResult.textContent = retVal;
     }
 
+    /**
+     * Shows or hides a modal element.
+     *
+     * @param {HTMLElement} modal - Modal element.
+     * @param {boolean} show - Whether the modal should be visible.
+     * @returns {void}
+     */
     toggleModal(modal, show) {
         if (show) modal.classList.remove('hidden');
         else modal.classList.add('hidden');
     }
 
+    /**
+     * Shows a temporary toast notification.
+     *
+     * @param {string} msg - Message to show.
+     * @param {boolean} [isError=false] - Whether the toast represents an error.
+     * @returns {void}
+     */
     showToast(msg, isError = false) {
         this.toast.textContent = msg;
         this.toast.style.background = isError ? 'var(--error-color)' : 'var(--primary-color)';
@@ -355,20 +484,47 @@ class MiniVault {
         setTimeout(() => this.toast.classList.add('hidden'), 3000);
     }
 
+    /**
+     * Copies text to the user's clipboard.
+     *
+     * @param {string} text - Text to copy.
+     * @returns {void}
+     */
     copyToClipboard(text) {
         navigator.clipboard.writeText(text).then(() => {
             this.showToast('Copied to clipboard!');
         });
     }
 
+    /**
+     * Converts a Uint8Array into a Base64 string.
+     *
+     * @param {Uint8Array} uint8 - Binary data.
+     * @returns {string} Base64 string.
+     */
     uint8ToStr(uint8) {
         return btoa(String.fromCharCode.apply(null, uint8));
     }
 
+    /**
+     * Converts a Base64 string into a Uint8Array.
+     *
+     * @param {string} str - Base64 string.
+     * @returns {Uint8Array} Binary data.
+     */
     strToUint8(str) {
         return new Uint8Array(atob(str).split('').map(c => c.charCodeAt(0)));
     }
 
+    /**
+     * Escapes user input before inserting it into the DOM.
+     *
+     * This prevents basic HTML injection when rendering service names,
+     * usernames and passwords inside generated cards.
+     *
+     * @param {string} text - Raw user input.
+     * @returns {string} Escaped HTML-safe string.
+     */
     escapeHtml(text) {
         const div = document.createElement('div');
         div.textContent = text;
@@ -376,5 +532,13 @@ class MiniVault {
     }
 }
 
+/**
+ * Main MiniVault application instance.
+ *
+ * The instance is exposed globally as window.app because some dynamic
+ * buttons generated in renderVault() call methods directly from HTML.
+ *
+ * @type {MiniVault}
+ */
 const app = new MiniVault();
 window.app = app;
